@@ -44,6 +44,7 @@ function Display(){
         var index = 0;
 
         controls.update(1);
+        ribbon.update();
 
         renderer.render( scene, camera );
     }
