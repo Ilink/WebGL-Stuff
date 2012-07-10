@@ -19,6 +19,21 @@ function Ribbon(args){
         }
     }
 
+    var geometry = new THREE.PlaneGeometry(1000,0,50,1);
+
+    // set the geometry to dynamic
+    // so that it allow updates
+    geometry.dynamic = true;
+
+    function set_to_update(geometry){
+        geometry.verticesNeedUpdate = true;
+        geometry.elementsNeedUpdate = true;
+        geometry.morphTargetsNeedUpdate = true;
+        geometry.uvsNeedUpdate = true;
+        geometry.normalsNeedUpdate = true;
+        geometry.colorsNeedUpdate = true;
+        geometry.tangentsNeedUpdate = true;
+    }
 
     // smooth my curve over this many points
     var numPoints = 100;
@@ -41,64 +56,44 @@ function Ribbon(args){
 
     var polymaterial = new THREE.MeshBasicMaterial({color: 0xFF0000});
 
-    var geometry = new THREE.Geometry();
-    var splinePoints = spline.getPoints(numPoints);
-    var splinePoints2 = spline2.getPoints(numPoints);
+//    var geometry = new THREE.Geometry();
+//    var splinePoints = spline.getPoints(numPoints);
+//    var splinePoints2 = spline2.getPoints(numPoints);
+//
+//    for(var i = 0; i < splinePoints.length; i++){
+//        geometry.vertices.push(splinePoints[i]);
+//        geometry.vertices.push(splinePoints2[i]);
+//    }
+//    build_faces(geometry);
 
-    for(var i = 0; i < splinePoints.length; i++){
-        geometry.vertices.push(splinePoints[i]);
-        geometry.vertices.push(splinePoints2[i]);
-    }
-
-    build_faces(geometry);
 
     console.log('geo:', geometry);
     geometry.computeFaceNormals();
-    var line = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial());
+    var plane = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial());
 
-    args.scene.add(line);
-
-
-    var geom = new THREE.Geometry();
-    var v1 = new THREE.Vector3(0,0,0);
-    var v2 = new THREE.Vector3(0,500,0);
-    var v3 = new THREE.Vector3(0,500,500);
-
-    var v4 = new THREE.Vector3(0,1000,800);
-    var v5 = new THREE.Vector3(0,100,0);
-    var v6 = new THREE.Vector3(0,1000,800);
-
-    geom.vertices.push(v1);
-    geom.vertices.push(v2);
-    geom.vertices.push(v3);
-    geom.vertices.push(v4);
-    geom.vertices.push(v5);
-    geom.vertices.push(v6);
-    console.log('this geo works:',geom);
-
-    geom.faces.push( new THREE.Face3( 0, 1, 2 ) );
-    geom.faces.push( new THREE.Face3( 4, 3, 2 ) );
-    geom.computeFaceNormals();
-
-    var object = new THREE.Mesh( geom, new THREE.MeshNormalMaterial() );
-    args.scene.add(object);
-
-
-    // set the geometry to dynamic
-    // so that it allow updates
-    geometry.dynamic = true;
-
-    geometry.verticesNeedUpdate = true;
-    geometry.elementsNeedUpdate = true;
-    geometry.morphTargetsNeedUpdate = true;
-    geometry.uvsNeedUpdate = true;
-    geometry.normalsNeedUpdate = true;
-    geometry.colorsNeedUpdate = true;
-    geometry.tangentsNeedUpdate = true;
+    args.scene.add(plane);
 
     // extend from the last two verts
     this.update = function(){
+        set_to_update(geometry);
+        var vert_length = geometry.vertices.length;
+        var last_vert_a = geometry.vertices[vert_length-1];
+        var last_vert_b = geometry.vertices[vert_length-2];
 
+//        last_vert_a.x += 100;
+//        last_vert_b.x += 100;
+
+        last_vert_a.z += 100;
+        last_vert_b.z += 100;
+
+//
+//        $.each(geometry.vertices, function(i, vert){
+//            set_to_update(geometry);
+//            vert.x += 1;
+//            vert.z += 1;
+//
+////            vert.z = Math.random() * 2000;
+//        });
     };
 
 }
