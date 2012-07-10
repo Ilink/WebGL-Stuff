@@ -84,8 +84,21 @@ function Ribbon(args){
     args.scene.add(object);
 
 
+    // set the geometry to dynamic
+    // so that it allow updates
+    geometry.dynamic = true;
+
+    geometry.verticesNeedUpdate = true;
+    geometry.elementsNeedUpdate = true;
+    geometry.morphTargetsNeedUpdate = true;
+    geometry.uvsNeedUpdate = true;
+    geometry.normalsNeedUpdate = true;
+    geometry.colorsNeedUpdate = true;
+    geometry.tangentsNeedUpdate = true;
+
+    // extend from the last two verts
     this.update = function(){
 
-    }
+    };
 
 }
