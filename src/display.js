@@ -33,6 +33,9 @@ function Display(){
         scene: scene
     });
 
+	var moving_cube = new Moving_cube();
+	scene.add(moving_cube.mesh);
+
 
     /* end test */
 
@@ -44,7 +47,8 @@ function Display(){
         var index = 0;
 
         controls.update(1);
-        ribbon.update();
+		moving_cube.update(dt);
+		ribbon.update();
 
         renderer.render( scene, camera );
     }
@@ -54,11 +58,16 @@ function Display(){
     };
 
     var dt, time, new_time;
+	time = new Date();
+	dt = 16; // good starting value
     this.animate = function(){
         // note: three.js includes requestAnimationFrame shim
 
         new_time = new Date();
         dt = new_time - time;
+		if(dt > 33){
+			dt = 33;
+		}
         time = new_time;
         requestAnimationFrame(self.animate);
         render(dt);

@@ -1,7 +1,8 @@
 /*
  class Ribbon
 
- points is an array of THREE.Vector3 values
+ args.following is a mesh object
+
  */
 
 function Ribbon(args){
@@ -18,6 +19,8 @@ function Ribbon(args){
             }
         }
     }
+
+	var following = args.following;
 
     var geometry = new THREE.PlaneGeometry(1000,0,50,1);
 
@@ -70,12 +73,16 @@ function Ribbon(args){
     console.log('geo:', geometry);
     geometry.computeFaceNormals();
     var plane = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial());
+	console.log('plane mesh(ribbon):', plane);
 
     args.scene.add(plane);
 
     // extend from the last two verts
     this.update = function(){
         set_to_update(geometry);
+
+//		var new_position = following.
+
         var vert_length = geometry.vertices.length;
         var last_vert_a = geometry.vertices[vert_length-1];
         var last_vert_b = geometry.vertices[vert_length-2];
